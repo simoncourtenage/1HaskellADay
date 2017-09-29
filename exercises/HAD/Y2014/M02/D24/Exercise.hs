@@ -11,4 +11,8 @@ module HAD.Y2014.M02.D24.Exercise where
 -- [2,2,3]
 
 --filterByPair :: Find the most generic signature
-filterByPair = undefined
+filterByPair :: Eq a => [a] -> [a]
+filterByPair [] = []
+filterByPair [a] = []
+filterByPair (a:b:cs) | a == b    = a : filterByPair (b:cs)
+                      | otherwise = filterByPair (b:cs)

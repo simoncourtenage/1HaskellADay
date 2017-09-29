@@ -12,4 +12,4 @@ module HAD.Y2014.M02.D26.Exercise where
 -- Nothing
 --
 sumIfAll :: Num a => [Maybe a] -> Maybe a
-sumIfAll =  undefined
+sumIfAll =  fmap sum . traverse id -- traverse id is just sequence

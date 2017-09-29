@@ -11,4 +11,4 @@ module HAD.Y2014.M02.D28.Exercise where
 -- >>> zipBinary (cycle [(+), (*)]) [1 .. 4] [2..5]
 -- [3,6,7,20]
 zipBinary :: [a->b->c] -> [a] -> [b] -> [c]
-zipBinary ops xs ys = undefined
+zipBinary ops xs ys = zipWith (\f (a,b) -> f a b) ops (zip xs ys) 

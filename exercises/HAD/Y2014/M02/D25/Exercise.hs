@@ -1,5 +1,7 @@
 module HAD.Y2014.M02.D25.Exercise where
 
+import Data.List (group)
+
 -- Implement a variation of the RLE algorithm
 
 -- | Compress a list with RLE
@@ -12,7 +14,7 @@ module HAD.Y2014.M02.D25.Exercise where
 -- >>> compress [1,1,1,1,1]
 -- [(1,5)]
 compress :: Eq a => [a] -> [(a, Int)]
-compress = undefined
+compress = (map (\a -> (head a,length a))) . group 
 
 -- | Expand a list with RLE
 --
@@ -24,7 +26,7 @@ compress = undefined
 -- >>> expand [(1,5)]
 -- [1,1,1,1,1]
 expand :: [(a, Int)] -> [a]
-expand = undefined
+expand xs = xs >>= (\(x,l) -> take l $ repeat x)
 
 -- | It should verify
 -- prop> (expand . compress) xs == (xs :: String)
