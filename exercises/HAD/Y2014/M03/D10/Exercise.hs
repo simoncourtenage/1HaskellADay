@@ -1,5 +1,7 @@
 module HAD.Y2014.M03.D10.Exercise where
 
+import Data.Char(isDigit)
+
 -- $setup
 -- >>> import Test.QuickCheck
 -- >>> import Control.Applicative
@@ -20,4 +22,7 @@ module HAD.Y2014.M03.D10.Exercise where
 -- Nothing
 --
 maybeReadPositiveInt :: String -> Maybe Int
-maybeReadPositiveInt = undefined
+maybeReadPositiveInt =  fmap read . traverse f
+    where f c | isDigit c = Just c
+              | otherwise = Nothing
+
