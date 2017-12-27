@@ -6,7 +6,7 @@ module HAD.Y2014.M03.D26.Exercise
   , viewFrom
   ) where
 
-import Data.List (groupBy)
+import Data.List (groupBy,transpose)
 import Control.Applicative ((<*>))
 import Control.Monad (liftM, replicateM)
 
@@ -14,15 +14,15 @@ import Test.QuickCheck
 
 -- Preamble
 
--- $setup
--- >>> import Control.Applicative ((<$>), (<*>))
--- >>> import Data.List (sort)
--- >>> :{
---   let checkReverse d1 d2 =
---     (==) <$>
---        sort . map sort . getList . viewFrom d1 <*>
---        sort . map (sort . reverse) . getList . viewFrom d2 
--- :}
+-- setup
+import Control.Applicative ((<$>), (<*>))
+import Data.List (sort)
+--
+checkReverse d1 d2 =
+     (==) <$>
+        sort . map sort . getList . viewFrom d1 <*>
+        sort . map (sort . reverse) . getList . viewFrom d2 
+
 
 newtype Board a = Board {getList :: [[a]]}
   deriving (Eq, Show)
@@ -50,8 +50,26 @@ data Direction = North | South | East | West
 -- prop> checkReverse North South (xxs :: Board Int)
 -- prop> checkReverse South North (xxs :: Board Int)
 --
+
+{--
+  Let's assume that a board of [[1,2,3],[4,5,6],[7,8,9]] is actually
+           NORTH
+      WEST 1 2 3   EAST
+           4 5 6
+           7 8 9
+           SOUTH
+
+  So if you view from the North, this list should be [[1,4,7],[2,5,8],[3,6,9]] and if from the East,
+  then [[3,2,1],[6,5,4],[9,8,7]].  South will be [[7,4,1],[8,5,2],[9,6,3]].
+
+  Further, we assume that any board passed to viewFrom is viewed from the West (see note above).
+--}
+
 viewFrom :: Direction -> Board a -> Board a
-viewFrom = undefined
+viewFrom West = id
+viewFrom East = Board . fmap reverse . getList
+viewFrom North = Board . transpose . getList
+viewFrom South = Board . fmap reverse . transpose . reverse . getList
 
 
 -- Constructor

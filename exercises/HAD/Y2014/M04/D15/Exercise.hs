@@ -17,5 +17,12 @@ module HAD.Y2014.M04.D15.Exercise where
    999
 
 -}
+
 lowestFreeInt :: [Int] -> Int
-lowestFreeInt = undefined
+lowestFreeInt [] = 0
+lowestFreeInt xss@(x:xs)
+    | x > 0                            = last (take x [0..])
+    | length xss == (last xss - (x-1)) = last xss + 1
+    | otherwise                        = (+1) . fst . head . filter f $ zip xss xs
+    where f (a,b) | b == a + 1 = False
+                  | otherwise  = True

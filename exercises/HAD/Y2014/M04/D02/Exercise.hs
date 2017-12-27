@@ -15,4 +15,8 @@ module HAD.Y2014.M04.D02.Exercise where
 -- [0,1,10,3,4]
 --
 update :: Int -> a -> [a] -> [a]
-update = undefined
+update n a [] = []
+update n a xss@(x:xs) | n < 0 = xss
+                      | n == 0 = a : xs
+                      | otherwise = x : update (n-1) a xs
+

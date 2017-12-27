@@ -19,4 +19,14 @@ module HAD.Y2014.M03.D14.Exercise where
 -- ["ab","bc","cd","de"]
 --
 -- groupByStraights :: START HERE
-groupByStraights = undefined
+
+{--
+  This is another example where the hand-coded example outperforms the official solution.  Have a look in the
+  Main.hs file.
+--}
+
+groupByStraights :: (Enum a, Eq a) => [a] -> [[a]]
+groupByStraights [] = []
+groupByStraights [x] = [[x]]
+groupByStraights (x:y:xs) | y == succ x = [x,y] : groupByStraights xs
+                          | otherwise   = [x] : groupByStraights (y:xs)

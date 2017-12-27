@@ -1,4 +1,4 @@
-module HAD.Y2114.M03.D21.Exercise where
+module HAD.Y2014.M03.D21.Exercise where
 
 -- $setup
 -- >>> import Test.QuickCheck
@@ -23,5 +23,11 @@ module HAD.Y2114.M03.D21.Exercise where
 -- prop> \(NonEmpty(xs)) -> minimum xs == (fst . fromJust . minmax) xs
 -- prop> \(NonEmpty(xs)) -> maximum xs == (snd . fromJust . minmax) xs
 --
-minmax :: Ord a => [a] -> (a,a)
-minmax = undefined
+
+{--
+    Changed type signature to return Maybe (a,a), rather than (a,a)
+--}
+minmax :: Ord a => [a] -> Maybe (a,a)
+minmax [] = Nothing
+minmax (x:xs) = Just $ foldr (\y (a,b) -> (min y a,max y b)) (x,x) xs
+

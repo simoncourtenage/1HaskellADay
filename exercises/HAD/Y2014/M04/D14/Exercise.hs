@@ -15,5 +15,7 @@ module HAD.Y2014.M04.D14.Exercise where
    ["ello","hello"]
 
 -}
+
+-- Not point-free like the official solution, but still close!
 stagedComputation :: [a->a] -> a -> [a]
-stagedComputation = undefined
+stagedComputation fs x = tail $ scanl (flip ($)) x fs

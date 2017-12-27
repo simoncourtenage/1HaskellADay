@@ -1,4 +1,4 @@
-module HAD.Y2114.M03.D28.Exericse where
+module HAD.Y2014.M03.D28.Exercise where
 
 import Data.List (transpose)
 import Data.Maybe (catMaybes)
@@ -12,7 +12,8 @@ import Test.QuickCheck
 -- >>> import Data.List (sort)
 -- >>> import Data.Maybe (catMaybes)
 -- >>> :{
---   let checkReverse d1 d2 =
+--   let
+--    checkReverse d1 d2 =
 --     (==) <$>
 --        sort . map sort . getList . viewFrom d1 <*>
 --        sort . map (sort . reverse) . getList . viewFrom d2 
@@ -25,13 +26,13 @@ import Test.QuickCheck
 -- (yes, it is the same behavior as 2048):
 -- http://gabrielecirulli.github.io/2048/
 --
--- >>> getList . pushTo West $ Square [[Just 1, Just 1], [Just 2, Just 2]]
+-- >>> getList . pushTo West $ Board [[Just 1, Just 1], [Just 2, Just 2]]
 -- [[Just 2,Nothing],[Just 3,Nothing]]
 --
--- >>> getList . pushTo North $ Square [[Just 1, Just 1], [Just 2, Just 2]]
+-- >>> getList . pushTo North $ Board [[Just 1, Just 1], [Just 2, Just 2]]
 -- [[Just 1,Just 1],[Just 2,Just 2]]
 --
--- >>> getList . pushTo West $ Square [[Just 1, Just 1], [Just 2, Just 2]]
+-- >>> getList . pushTo West $ Board [[Just 1, Just 1], [Just 2, Just 2]]
 -- [[Just 2,Nothing],[Just 3,Nothing]]
 --
 -- prop> :{ \(d, bs) ->
@@ -40,8 +41,20 @@ import Test.QuickCheck
 --    <*> catMaybes . videFrom d . pushTo d
 --     $  bs
 -- :}
+
+{--
+    Algorithm:
+      - change view to direction, so lists all go from left to right
+      - map compact over each list
+      - then apply Just to remaining values and pad out with Nothings
+      - change view back
+
+--}
 pushTo :: (Enum a, Eq a) => Direction -> Board (Maybe a) -> Board (Maybe a)
-pushTo = undefined
+pushTo d b = viewFrom d . Board . fmap (take (length (head . getList $ b)))
+  $ fmap (foldr (:) (repeat Nothing))
+    $ (fmap . fmap) Just
+      $ map compact . getList $ viewFrom d b
 
 
 -- Old stuff

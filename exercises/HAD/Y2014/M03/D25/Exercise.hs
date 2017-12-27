@@ -24,8 +24,20 @@ newtype Board a = Board {getList :: [[a]]}
 -- The external list length is equal to the length of each internal lists
 -- prop> (1==) . length . group . (flip (:) <*> length) . map length $ getList bs
 --
+
+{--
+  I like the official solution - there's a lot to be learnt from it.  On the other hand, it's also a 
+  bit puzzling.  What exactly is it testing?  If the 'square' nature of the Board is due to 'board',
+  then shouldn't you test Boards built by 'board'?  So why not use 'board' in arbitrary?
+--}
+
 instance Arbitrary a => Arbitrary (Board a) where 
-  arbitrary = undefined
+  arbitrary = do 
+    n <- arbitrary -- board size
+    v <- arbitrary -- default value
+    l <- arbitrary -- list of values
+    return $ Board (board n v l)
+
 
 
 

@@ -1,4 +1,4 @@
-module HAD.Y2114.M03.D21.Solution where
+module HAD.Y2014.M03.D21.Solution where
 
 import Control.Applicative
 import Control.Arrow

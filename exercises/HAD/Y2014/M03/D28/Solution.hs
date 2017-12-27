@@ -1,4 +1,4 @@
-module HAD.Y2114.M03.D28.Solution where
+module HAD.Y2014.M03.D28.Solution where
 
 import Data.List (transpose)
 import Data.Maybe (catMaybes)
@@ -12,7 +12,8 @@ import Test.QuickCheck
 -- >>> import Data.List (sort)
 -- >>> import Data.Maybe (catMaybes)
 -- >>> :{
---   let checkReverse d1 d2 =
+--   let
+--    checkReverse d1 d2 =
 --     (==) <$>
 --        sort . map sort . getList . viewFrom d1 <*>
 --        sort . map (sort . reverse) . getList . viewFrom d2 
@@ -25,13 +26,13 @@ import Test.QuickCheck
 -- (yes, it is the same behavior as 2048):
 -- http://gabrielecirulli.github.io/2048/
 --
--- >>> getList . pushTo West $ Square [[Just 1, Just 1], [Just 2, Just 2]]
+-- >>> getList . pushTo West $ Board [[Just 1, Just 1], [Just 2, Just 2]]
 -- [[Just 2,Nothing],[Just 3,Nothing]]
 --
--- >>> getList . pushTo North $ Square [[Just 1, Just 1], [Just 2, Just 2]]
+-- >>> getList . pushTo North $ Board [[Just 1, Just 1], [Just 2, Just 2]]
 -- [[Just 1,Just 1],[Just 2,Just 2]]
 --
--- >>> getList . pushTo West $ Square [[Just 1, Just 1], [Just 2, Just 2]]
+-- >>> getList . pushTo West $ Board [[Just 1, Just 1], [Just 2, Just 2]]
 -- [[Just 2,Nothing],[Just 3,Nothing]]
 --
 -- prop> :{ \(d, bs) ->

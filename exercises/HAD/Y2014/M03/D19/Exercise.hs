@@ -1,5 +1,7 @@
 module HAD.Y2014.M03.D19.Exercise where
 
+import Data.List (group)
+
 -- $setup
 -- >>> import Control.Applicative ((<*>))
 -- >>> import Data.List (isInfixOf)
@@ -25,5 +27,12 @@ module HAD.Y2014.M03.D19.Exercise where
 --
 -- prop> (flip isInfixOf <*> uncurry (flip replicate) . mostRepeatedElem) . getNonEmpty
 
+{--
+  This is a kind of hand-coded version of the official solution (I like to think!). Especially the
+  expression 'map (\x -> (head x,length x))' compared with 'map (head &&& length)'.
+--}
+
 mostRepeatedElem :: Eq a => [a] -> (a,Int)
-mostRepeatedElem = undefined
+mostRepeatedElem = (\xs -> foldr f (head xs) $ tail xs) . map (\x -> (head x,length x)) . group
+    where f (a,b) (z,l) | b >= l    = (a,b)
+                        | otherwise = (z,l)

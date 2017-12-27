@@ -15,4 +15,4 @@ module HAD.Y2014.M04.D10.Exercise where
 
 -}
 onBothSide :: Num a => (a -> a -> b) -> a -> b
-onBothSide = undefined
+onBothSide = (<*> id)

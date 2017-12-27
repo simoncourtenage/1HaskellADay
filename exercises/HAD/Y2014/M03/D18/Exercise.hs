@@ -4,7 +4,7 @@ module HAD.Y2014.M03.D18.Exercise where
 -- >>> import Data.Maybe
 -- >>> let backPartner = (>>= partner) . (>>= partner)
 
-data Person a = Single a | Married a (Person a)
+data Person a = Single a | Married a (Person a) deriving (Show)
 
 partner :: Person a -> Maybe (Person a)
 partner (Married _ p) = Just p
@@ -30,5 +30,23 @@ get (Married x _) = x
 -- prop> \(x,y) -> (fmap get . backPartner . fmap fst $ wedding (Single x) (Single y)) == Just (x :: String)
 -- prop> \(x,y) -> (fmap get . backPartner . fmap snd $ wedding (Single x) (Single y)) == Just (y :: String)
 
+{--
+  Originally, I had a mkMarried function that was called after the two calls to isSingle in 'wedding'.  But
+  after looking at the solution, I rolled it all up into the one wedding function, so that I didn't have a
+  function that assumed the two people were single.
+--}
+
 wedding :: Person a -> Person a -> Maybe (Person a, Person a)
-wedding = undefined
+wedding a b = do
+    a' <- isSingle a
+    b' <- isSingle b
+    let (a',b') = (get a, get b)
+    let m  = Married a' b
+    let m' = Married b' a
+    return $ (Married a' m',Married b' m)
+
+isSingle :: Person a -> Maybe (Person a)
+isSingle (Married _ _) = Nothing
+isSingle s             = Just s
+
+

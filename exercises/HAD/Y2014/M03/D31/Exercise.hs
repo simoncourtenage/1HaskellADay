@@ -1,5 +1,7 @@
 module HAD.Y2014.M03.D31.Exercise where
 
+import Data.Maybe (isNothing)
+
 -- $setup
 -- >>> import Control.Applicative
 
@@ -8,4 +10,4 @@ module HAD.Y2014.M03.D31.Exercise where
 -- prop> (all (isNothing) .) . map . (!!) <*> emptyIndices $ xs
 --
 emptyIndices :: [Maybe a] -> [Int]
-emptyIndices = undefined
+emptyIndices = map fst . filter (isNothing . snd) . (zip [0..])

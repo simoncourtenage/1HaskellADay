@@ -13,5 +13,12 @@ module HAD.Y2014.M03.D24.Exercise where
 -- >>> squareList 3 () $ repeat ()
 -- [[(),(),()],[(),(),()],[(),(),()]]
 --
+
+{--
+  Feel somewhat humbled after looking at the solution :(
+--}
 squareList :: Int -> a -> [a] -> [[a]] 
-squareList = undefined
+squareList n r xs = f n n $ xs ++ repeat r
+    where f 0 _ _ = []
+          f n m l = take m l : f (n-1) m (drop m l)
+

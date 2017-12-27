@@ -1,5 +1,7 @@
 module HAD.Y2014.M04.D04.Exercise where
 
+import Data.List(sort,group)
+
 -- | countFigures count the different figures that composes a number
 --
 -- Examples:
@@ -19,5 +21,7 @@ module HAD.Y2014.M04.D04.Exercise where
 -- >>> countFigures 0
 -- 1
 --
+
+-- map head . group . sort is effectively nub
 countFigures :: Integral a => a -> Int
-countFigures = undefined
+countFigures = length . map head . group . sort . show . abs
